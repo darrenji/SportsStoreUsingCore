@@ -37,6 +37,8 @@ namespace SportsStoreUsingCore
             //每一次请求过来到达控制器都会生出一个实例来
             services.AddTransient<IProductRepository, FakeRepository>();
             services.AddMvc();
+            services.AddMemoryCache();
+            services.AddSession();
 
             
         }
@@ -48,6 +50,7 @@ namespace SportsStoreUsingCore
             app.UseStatusCodePages();
             app.UseStaticFiles();
             //app.UseMvcWithDefaultRoute();
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
