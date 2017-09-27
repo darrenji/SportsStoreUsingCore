@@ -33,6 +33,10 @@ namespace SportsStoreUsingCore.Infrastructure
         public string PageClassNormal { get; set; }
         public string PageClassSelected { get; set; }
 
+        //路由中带多个参数的解决方案
+        [HtmlAttributeName(DictionaryAttributePrefix ="page-url-")]
+        public Dictionary<string, object> PageUrlValues { get; set; } = new Dictionary<string, object>();
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             //视图当中有一个ViewContext
@@ -42,7 +46,10 @@ namespace SportsStoreUsingCore.Infrastructure
             for(int i = 1; i <= PageModel.TotalPages; i++)
             {
                 TagBuilder aTag = new TagBuilder("a");
-                aTag.Attributes["href"] = urlHelper.Action(PageAction,new { page=i});
+
+                //路由数据
+                PageUrlValues["page"] = i;
+                aTag.Attributes["href"] = urlHelper.Action(PageAction, PageUrlValues);
                 if (PageClassEnabled)
                 {
                     aTag.AddCssClass(PageClass);
