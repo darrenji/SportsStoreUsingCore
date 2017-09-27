@@ -28,6 +28,11 @@ namespace SportsStoreUsingCore.Infrastructure
         public PagingInfo PageModel { get; set; }
         public string PageAction { get; set; }
 
+        public bool PageClassEnabled { get; set; } = false;
+        public string PageClass { get; set; }
+        public string PageClassNormal { get; set; }
+        public string PageClassSelected { get; set; }
+
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             //视图当中有一个ViewContext
@@ -38,6 +43,11 @@ namespace SportsStoreUsingCore.Infrastructure
             {
                 TagBuilder aTag = new TagBuilder("a");
                 aTag.Attributes["href"] = urlHelper.Action(PageAction,new { page=i});
+                if (PageClassEnabled)
+                {
+                    aTag.AddCssClass(PageClass);
+                    aTag.AddCssClass(i==PageModel.CurrentPage ? PageClassSelected : PageClassNormal);
+                }
                 aTag.InnerHtml.Append(i.ToString());
                 divTag.InnerHtml.AppendHtml(aTag);
             }
