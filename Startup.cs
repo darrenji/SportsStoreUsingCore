@@ -33,9 +33,18 @@ namespace SportsStoreUsingCore
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
 
 
-            //services.AddEntityFrameworkSqlServer();
+            //依赖设置
             //每一次请求过来到达控制器都会生出一个实例来
             services.AddTransient<IProductRepository, FakeRepository>();
+
+            //有关购物车
+            //在同一个请求生成同一个实例，不同请求生成不同实例
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            //所有请求都是同一个实例
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            
+
             services.AddMvc();
             services.AddMemoryCache();
             services.AddSession();
