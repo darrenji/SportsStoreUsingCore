@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SportsStoreUsingCore.Models;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -48,6 +49,7 @@ namespace SportsStoreUsingCore.Controllers
             return View();
         }
 
+        [Authorize]
         public ViewResult List()
         {
             try
@@ -63,6 +65,7 @@ namespace SportsStoreUsingCore.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult MarkShipped(int orderID)
         {
             try
