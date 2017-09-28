@@ -43,6 +43,9 @@ namespace SportsStoreUsingCore
             //所有请求都是同一个实例
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            //有关订单
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
+
             
 
             services.AddMvc();
