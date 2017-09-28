@@ -13,7 +13,7 @@ namespace SportsStoreUsingCore.Models
         public int OrderID { get; set; }
 
         [BindNever]
-        public ICollection<Cartline> Lines { get; set; }
+        public virtual ICollection<Cartline> Lines { get; set; } = new List<Cartline>();
 
         [Required(ErrorMessage ="please enter a name")]
         public string Name { get; set; }
@@ -35,5 +35,8 @@ namespace SportsStoreUsingCore.Models
         public string Country { get; set; }
 
         public bool GiftWrap { get; set; }
+
+        [BindNever]
+        public bool Shipped { get; set; }
     }
 }

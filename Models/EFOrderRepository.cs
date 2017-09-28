@@ -18,6 +18,10 @@ namespace SportsStoreUsingCore.Models
             .Include(o => o.Lines)
             .ThenInclude(l => l.Product);
 
+        public IEnumerable<Order> GetOrdersBySql(string sqlStr)
+        {
+            return context.Orders.FromSql(sqlStr).ToList();
+        }
 
         public void SaveOrder(Order order)
         {

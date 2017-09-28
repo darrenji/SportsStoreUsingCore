@@ -9,5 +9,7 @@ namespace SportsStoreUsingCore.Models
     {
         IEnumerable<Order> Orders { get; }
         void SaveOrder(Order order);
+
+        IEnumerable<Order> GetOrdersBySql(string sqlStr);
     }
 }

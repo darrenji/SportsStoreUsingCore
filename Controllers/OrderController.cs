@@ -47,5 +47,41 @@ namespace SportsStoreUsingCore.Controllers
             cart.Clear();
             return View();
         }
+
+        public ViewResult List()
+        {
+            try
+            {
+                var orders = repository.GetOrdersBySql("SELECT * FROM Orders");
+                return View(orders.Where(o => !o.Shipped));
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public IActionResult MarkShipped(int orderID)
+        {
+            try
+            {
+                IEnumerable<Order> orders = repository.GetOrdersBySql("SELECT * FROM Orders");
+                Order order = orders.FirstOrDefault(o => o.OrderID == orderID);
+
+                if (order != null)
+                {
+                    order.Shipped = true;
+                    repository.SaveOrder(order);
+                }
+                return RedirectToAction(nameof(List));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
