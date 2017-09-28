@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using SportsStoreUsingCore.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SportsStoreUsingCore
 {
@@ -31,6 +32,10 @@ namespace SportsStoreUsingCore
         {
             //EF上下文放到IO容器，读配置文件
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreProducts:ConnectionString"]));
+
+            //有关Identity的上下文
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:SportStoreIdentity:ConnectionString"]));
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
 
 
             //依赖设置
@@ -63,6 +68,8 @@ namespace SportsStoreUsingCore
             app.UseStaticFiles();
             //app.UseMvcWithDefaultRoute();
             app.UseSession();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {
@@ -98,6 +105,7 @@ namespace SportsStoreUsingCore
 
             //种子数据
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }
